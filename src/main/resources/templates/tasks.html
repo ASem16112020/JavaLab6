@@ -4,67 +4,100 @@
     <title>Task Management</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f8f9fa;
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #ff9a9e, #fad0c4);
             margin: 0;
             padding: 0;
         }
 
         .container {
             max-width: 960px;
-            margin: 30px auto;
-            background: #fff;
+            margin: 50px auto;
+            background: #ffffff;
             padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border-radius: 12px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
         }
 
         h1 {
             text-align: center;
-            color: #333;
+            color: #ff6b81;
+            margin-bottom: 20px;
+            font-size: 2rem;
         }
 
         table {
             width: 100%;
-            margin-top: 20px;
             border-collapse: collapse;
+            margin-top: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
 
         table th, table td {
-            border: 1px solid #ddd;
-            padding: 8px;
+            padding: 12px;
             text-align: left;
         }
 
         table th {
-            background-color: #007bff;
+            background-color: #ff6b81;
             color: white;
+            text-transform: uppercase;
+            border: none;
+        }
+
+        table td {
+            border-bottom: 1px solid #ddd;
+            color: #555;
+        }
+
+        table tr:nth-child(even) {
+            background-color: #f9f9f9;
         }
 
         .btn {
-            display: inline-block;
-            padding: 8px 12px;
-            margin: 5px;
-            text-decoration: none;
-            color: white;
-            border-radius: 4px;
-            text-align: center;
+            padding: 8px 16px;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            text-transform: uppercase;
+            font-size: 0.9rem;
         }
 
         .btn-add {
-            background-color: #28a745;
+            background: linear-gradient(135deg, #ff6b81, #ff8b94);
+            color: white;
         }
 
         .btn-add:hover {
-            background-color: #218838;
+            background: linear-gradient(135deg, #ff3b5a, #ff6b81);
         }
 
         .btn-danger {
-            background-color: #dc3545;
+            background: #ff4d4d;
+            color: white;
         }
 
         .btn-danger:hover {
-            background-color: #c82333;
+            background: #ff1a1a;
+        }
+
+        .filter-form, .add-task-form {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 20px 0;
+        }
+
+        .filter-form input, .filter-form select, .add-task-form input, .add-task-form select {
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 20px;
+            width: calc(50% - 10px);
+        }
+
+        .filter-form button, .add-task-form button {
+            flex: none;
+            width: 100px;
         }
 
         .pagination {
@@ -72,6 +105,7 @@
             justify-content: center;
             list-style: none;
             padding: 0;
+            margin: 20px 0;
         }
 
         .pagination li {
@@ -79,21 +113,27 @@
         }
 
         .pagination a {
+            padding: 10px 15px;
+            border: none;
+            border-radius: 20px;
             text-decoration: none;
-            padding: 8px 12px;
-            border: 1px solid #ddd;
-            color: #007bff;
-            border-radius: 4px;
+            color: white;
+            background-color: #ff6b81;
         }
 
         .pagination a.active {
-            background-color: #007bff;
-            color: white;
+            background-color: #ff3b5a;
             pointer-events: none;
         }
 
-        .filter-form input, .filter-form select {
-            margin-right: 10px;
+        .pagination a:hover {
+            background-color: #ff8b94;
+        }
+
+        h2 {
+            color: #ff6b81;
+            text-align: center;
+            margin-top: 30px;
         }
     </style>
 </head>
@@ -108,7 +148,7 @@
             <option value="">All Categories</option>
             <option th:each="category : ${categories}" th:value="${category.name}" th:text="${category.name}"></option>
         </select>
-        <button type="submit" class="btn">Filter</button>
+        <button type="submit" class="btn btn-add">Filter</button>
     </form>
 
     <!-- Таблица задач -->
@@ -154,7 +194,7 @@
 
     <!-- Добавить задачу -->
     <h2>Add New Task</h2>
-    <form method="post" th:action="@{/web/tasks/add}">
+    <form class="add-task-form" method="post" th:action="@{/web/tasks/add}">
         <input type="text" name="title" placeholder="Title" required>
         <input type="text" name="description" placeholder="Description" required>
         <input type="date" name="dueDate" required>
